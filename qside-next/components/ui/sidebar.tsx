@@ -11,14 +11,14 @@ import {
 import { IconDiscord, IconHamburger, IconSidebar } from '@/components/ui/icons'
 import Link from 'next/link';
 import { LoginButtonGoogle } from '@/components/auth/googleLogin';
-import { useAuth } from '@/components/providers/authProvider'; 
+import { useAuth } from '@/components/providers/authProvider';
 
 import { createClient } from '@/utils/supabase/client';
 
 const Sidebar = () => {
 
     const handleSignOut = async () => {
-        
+
         const supabase = createClient();
         await supabase.auth.signOut();
     }
@@ -26,7 +26,6 @@ const Sidebar = () => {
     const { user } = useAuth();
     return (
         <div className="">
-
             <Sheet>
                 <SheetTrigger asChild>
                     <button className=" p-0">
@@ -67,13 +66,7 @@ const Sidebar = () => {
                             </SheetTitle>
                         </SheetHeader>
                     )}
-
-
-
-
-
                 </SheetContent>
-
             </Sheet>
         </div>
     )
