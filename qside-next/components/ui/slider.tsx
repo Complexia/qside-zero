@@ -12,11 +12,19 @@ import { IconDiscord, IconHamburger, IconSidebar } from '@/components/ui/icons'
 import Link from 'next/link';
 import { LoginButtonGoogle } from '@/components/auth/googleLogin';
 import { useAuth } from '@/components/providers/authProvider';
-
+import { invoke } from "@tauri-apps/api/core";
 import { createClient } from '@/utils/supabase/client';
-
+import { useEffect, useState } from "react";
 const Slider = () => {
-
+    const [backend, setBackend] = useState("")
+    const callGreet = async (name) => {
+        try {
+            const x: string = await invoke("greet", { name });
+            setBackend(x);
+        } catch (error) {
+            console.error("Error invoking greet:", error);
+        }
+    };
     const handleSignOut = async () => {
 
         const supabase = createClient();
@@ -31,9 +39,12 @@ const Slider = () => {
                     <figure><img src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" alt="car!" /></figure>
                     <div className="card-body">
                         <h2 className="card-title">Life hack</h2>
-                        <p>How to park your car at your garage?</p>
+                        {backend != "" ? (
+                            <p>{backend}</p>
+                        ) : (<p>How to park your car at your garage?</p>)
+                        }
                         <div className="card-actions justify-end">
-                            <button className="btn btn-primary">Learn now!</button>
+                            <button onClick={() => callGreet("Oh Dear")} className="btn btn-primary">Learn now!</button>
                         </div>
                     </div>
                 </div>
@@ -45,7 +56,7 @@ const Slider = () => {
                         <h2 className="card-title">Life hack</h2>
                         <p>How to park your car at your garage?</p>
                         <div className="card-actions justify-end">
-                            <button className="btn btn-primary">Learn now!</button>
+                            <button onClick={() => callGreet("Oh Dear")} className="btn btn-primary">Learn now!</button>
                         </div>
                     </div>
                 </div>
@@ -57,7 +68,7 @@ const Slider = () => {
                         <h2 className="card-title">Life hack</h2>
                         <p>How to park your car at your garage?</p>
                         <div className="card-actions justify-end">
-                            <button className="btn btn-primary">Learn now!</button>
+                            <button onClick={() => callGreet("Oh Dear")} className="btn btn-primary">Learn now!</button>
                         </div>
                     </div>
                 </div>
@@ -69,7 +80,7 @@ const Slider = () => {
                         <h2 className="card-title">Life hack</h2>
                         <p>How to park your car at your garage?</p>
                         <div className="card-actions justify-end">
-                            <button className="btn btn-primary">Learn now!</button>
+                            <button onClick={() => callGreet("Oh Dear")} className="btn btn-primary">Learn now!</button>
                         </div>
                     </div>
                 </div>
@@ -81,7 +92,7 @@ const Slider = () => {
                         <h2 className="card-title">Life hack</h2>
                         <p>How to park your car at your garage?</p>
                         <div className="card-actions justify-end">
-                            <button className="btn btn-primary">Learn now!</button>
+                            <button onClick={() => callGreet("Oh Dear")} className="btn btn-primary">Learn now!</button>
                         </div>
                     </div>
                 </div>
@@ -93,7 +104,7 @@ const Slider = () => {
                         <h2 className="card-title">Life hack</h2>
                         <p>How to park your car at your garage?</p>
                         <div className="card-actions justify-end">
-                            <button className="btn btn-primary">Learn now!</button>
+                            <button onClick={() => callGreet("Oh Dear")} className="btn btn-primary">Learn now!</button>
                         </div>
                     </div>
                 </div>
@@ -105,7 +116,7 @@ const Slider = () => {
                         <h2 className="card-title">Life hack</h2>
                         <p>How to park your car at your garage?</p>
                         <div className="card-actions justify-end">
-                            <button className="btn btn-primary">Learn now!</button>
+                            <button onClick={() => callGreet("Oh Dear")} className="btn btn-primary">Learn now!</button>
                         </div>
                     </div>
                 </div>
