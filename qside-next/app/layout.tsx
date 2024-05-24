@@ -4,6 +4,7 @@ import AuthProvider from "@/components/providers/authProvider";
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from 'next/headers'
 import Sidebar from "@/components/ui/sidebar";
+import MobileMenu from "@/components/ui/mobileMenu";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -36,10 +37,12 @@ export default async function RootLayout({
     <html lang="en" className={GeistSans.className}>
       <body className="bg-background text-foreground">
       <AuthProvider accessToken={accessToken} user={user} public_user={data}>
+       
         <Sidebar />
-        <main className="min-h-screen flex flex-row items-center justify-center">
+        <main className="min-h-screen flex flex-row ">
           {children}
         </main>
+        {/* <MobileMenu/> */}
       </AuthProvider>
       </body>
     </html>
