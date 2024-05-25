@@ -32,7 +32,7 @@ const MobileMenu = ({ activeButton, setActiveButton }) => {
         // <div className="rounded-box btm-nav top-0 z-10 fixed flex justify-around">
         <div className="btm-nav fixed flex justify-around z-10 ">
             <button
-                className={`text-accent ${activeButton === 1 ? 'active' : ''}`}
+                className={`text-primary ${activeButton === 1 ? 'active' : ''}`}
                 onClick={() => handleButtonClick(1)}
             >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -41,7 +41,7 @@ const MobileMenu = ({ activeButton, setActiveButton }) => {
                 Profile
             </button>
             <button
-                className={` text-accent ${activeButton === 2 ? 'active' : ''}`}
+                className={` text-primary ${activeButton === 2 ? 'active' : ''}`}
                 onClick={() => handleButtonClick(2)}
             >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -50,7 +50,7 @@ const MobileMenu = ({ activeButton, setActiveButton }) => {
                 Wallet
             </button>
             <button
-                className={`text-accent ${activeButton === 3 ? 'active' : ''}`}
+                className={`text-primary ${activeButton === 3 ? 'active' : ''}`}
                 onClick={() => handleButtonClick(3)}
             >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
