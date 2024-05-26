@@ -36,9 +36,9 @@ const Slider = () => {
         }
     };
     // end.
-    const callScrapWeb = async (url) => {
+    const callScrapWeb = async (type: String, url: String) => {
         try {
-            const x: MetaData = await invoke("scrap_web", { url });
+            const x: MetaData = await invoke("scrap_web", { type, url });
             console.log("this is return from Rust-user", x);
             setMeta(x);
         } catch (error) {
@@ -81,7 +81,7 @@ const Slider = () => {
                         ) : (<p>How to park your car at your garage?</p>)
                         }
                         <div className="card-actions justify-end">
-                            <button onClick={() => callScrapWeb("https://www.tiktok.com/@eazyhomeiot")} className="btn btn-primary">Learn now!</button>
+                            <button onClick={() => callScrapWeb("tiktok", "https://www.tiktok.com/@eazyhomeiot")} className="btn btn-primary">Learn now!</button>
                         </div>
                     </div>
                 </div>
@@ -93,7 +93,7 @@ const Slider = () => {
                         <h2 className="card-title">Life hack</h2>
                         <p>How to park your car at your garage?</p>
                         <div className="card-actions justify-end">
-                            <button onClick={() => callGreet("Oh Dear")} className="btn btn-primary">Learn now!</button>
+                            <button onClick={() => callScrapWeb("ing", "https://www.instagram.com/eazyhomeiot")} className="btn btn-primary">Learn now!</button>
                         </div>
                     </div>
                 </div>
