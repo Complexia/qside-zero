@@ -76,3 +76,49 @@ pub async fn instar_scrap(url: String) -> crate::models::SocialMetaData {
   
     meta
 }
+
+pub async fn linkein_scrap(url: String) -> crate::models::SocialMetaData {
+    let client = reqwest::Client::builder()
+        .user_agent("Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1")
+        .build().unwrap();
+    let response = client.get(&url).send().await.unwrap().text().await.unwrap();
+    //test
+        // Write the entire HTML document to a file
+        // let mut file = File::create("document.html").await.unwrap();
+        // file.write_all(response.as_bytes()).await.unwrap();
+        //end.
+    let document = Html::parse_document(&response);
+      // Define a selector for the script tag with the specific id
+      let meta_type_selector = Selector::parse(r#"meta[property="og:type"]"#).unwrap();
+      let meta_image_selector = Selector::parse(r#"meta[property="og:image"]"#).unwrap();
+      let meta_title_selector = Selector::parse(r#"meta[property="og:title"]"#).unwrap();
+      let meta_url_selector = Selector::parse(r#"meta[property="og:url"]"#).unwrap();
+      let meta_description_selector = Selector::parse(r#"meta[name="og:description"]"#).unwrap();
+      let mut meta: crate::models::SocialMetaData = crate::models::SocialMetaData::default();
+
+      // Find the script tag and extract its content
+
+    //   println!("this is debug from rust {:?}",document);
+    // Extract meta image
+    if let Some(element) = document.select(&meta_image_selector).next() {
+        meta.image = element.value().attr("content").map(|s| s.to_string());
+    }
+
+    // Extract meta title
+    if let Some(element) = document.select(&meta_title_selector).next() {
+        meta.title = element.value().attr("content").map(|s| s.to_string());
+    }
+
+    // Extract meta url
+    if let Some(element) = document.select(&meta_url_selector).next() {
+        meta.url = element.value().attr("content").map(|s| s.to_string());
+    }
+
+    // Extract meta description
+    if let Some(element) = document.select(&meta_description_selector).next() {
+        meta.description = element.value().attr("content").map(|s| s.to_string());
+    }
+    
+  
+    meta
+}
