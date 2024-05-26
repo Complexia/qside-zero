@@ -16,6 +16,7 @@ async fn scrap_web(r#type:String,url: String) -> crate::models::SocialMetaData {
         "tiktok"=> crate::handler::tiktok_scrap(url).await,
         "ing" => crate::handler::instar_scrap(url).await,
         "link" => crate::handler::linkein_scrap(url).await,
+        "git" => crate::handler::instar_scrap(url).await,
         _=> crate::models::SocialMetaData::default()
     }
 }
