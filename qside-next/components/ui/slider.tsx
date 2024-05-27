@@ -1,13 +1,7 @@
 "use client";
 
 
-import {
-    Sheet,
-    SheetContent,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger
-} from '@/components/ui/sheet'
+
 import { IconDiscord, IconHamburger, IconSidebar } from '@/components/ui/icons'
 import Link from 'next/link';
 import { LoginButtonGoogle } from '@/components/auth/googleLogin';
@@ -15,6 +9,7 @@ import { useAuth } from '@/components/providers/authProvider';
 import { invoke } from "@tauri-apps/api/core";
 import { createClient } from '@/utils/supabase/client';
 import { useEffect, useState } from "react";
+import SliderItem from './sliderItem';
 interface MetaData {
     type: string;
     image: string;
@@ -24,6 +19,48 @@ interface MetaData {
 }
 
 const Slider = () => {
+    // array of user.social will be fetch from server
+    let socialUser = [
+        {
+            type: "Github",
+            url: "https://github.com/vanha777",
+            image: "https://avatars.githubusercontent.com/u/107760796?v=4?s=400",
+            description: "An enigmatic Australian dev with an unconventional journey, obsessed with tech, transparency, and integrity. - vanha777",
+            icon: "https://github.com/fluidicon.png"
+        },
+        {
+            type: "Linkedin",
+            url: "https://www.linkedin.com/in/copycodervanjiro/",
+            image: "",
+            description: "",
+            icon: "https://static.licdn.com/aero-v1/sc/h/al2o9zrvru7aqj8e1x2rzsrca"
+        },
+        {
+            type: "Tiktok",
+            url: "https://www.tiktok.com/@eazyhomeiot",
+            image: "",
+            description: "",
+            icon: ""
+        },
+        {
+            type: "Instagram",
+            url: "https://www.instagram.com/eazyhomeiot",
+            image: "",
+            description: "",
+            icon: ""
+        },
+        {
+            type: "My page",
+            url: "https://master--stellular-stroopwafel-36ea55.netlify.app",
+            image: "",
+            description: "",
+            icon: ""
+        },
+    ];
+    //end.
+    const fetchSocial = async () => {
+        console.log("fetching user from top level")
+    }
     const [meta, setMeta] = useState<MetaData | null>(null);
     // this is just for testing
     const [backend, setBackend] = useState("");
@@ -54,7 +91,10 @@ const Slider = () => {
     const { user } = useAuth();
     return (
         <div className="flex carousel carousel-center max-w-md p-4 space-x-4 bg-neutral rounded-box">
-            <div className="carousel-item">
+            {socialUser.map((user) => (
+                <SliderItem socialUser={user} fetchSocial={fetchSocial} />
+            ))}
+            {/* <div className="carousel-item">
                 <div className="card w-96 glass">
                     <figure>
                         <img src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" alt="car!" />
@@ -105,7 +145,7 @@ const Slider = () => {
                         <h2 className="card-title">Life hack</h2>
                         <p>How to park your car at your garage?</p>
                         <div className="card-actions justify-end">
-                            <button onClick={() => callScrapWeb("link", "https://www.linkedin.com/in/copycodervanjiro/")} className="btn btn-primary">Learn now!</button>
+                            <button onClick={() => callScrapWeb("Linkedin", "https://www.linkedin.com/in/copycodervanjiro/")} className="btn btn-primary">Learn now!</button>
                         </div>
                     </div>
                 </div>
@@ -145,18 +185,8 @@ const Slider = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
-        // <div className="card w-96 glass">
-        //     <figure><img src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" alt="car!" /></figure>
-        //     <div className="card-body">
-        //         <h2 className="card-title">Life hack</h2>
-        //         <p>How to park your car at your garage?</p>
-        //         <div className="card-actions justify-end">
-        //             <button className="btn btn-primary">Learn now!</button>
-        //         </div>
-        //     </div>
-        // </div>
     )
 }
 

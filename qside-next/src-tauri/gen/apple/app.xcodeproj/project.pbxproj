@@ -29,9 +29,11 @@
 		1E81BD6B453D87B7F7B1597B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		306B9C1792E7B1C53FA262A6 /* bindings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bindings.h; sourceTree = "<group>"; };
 		3842AE2A64FB9933D0400EA4 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = SOURCE_ROOT; };
+		57326BBD1750E501F39D0086 /* mod.rs */ = {isa = PBXFileReference; path = mod.rs; sourceTree = "<group>"; };
 		682535EEFE1DA20BE07B123C /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		81E326B61ED92E1D1EECF952 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9FACFFCB6E3743955F72464C /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		ADAD86330811FFC1DA6F969B /* mod.rs */ = {isa = PBXFileReference; path = mod.rs; sourceTree = "<group>"; };
 		AF1DE57E7D9CF13BB2E0E038 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE1209BFDECB28E00189B168 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		D8F57162F5CC7AEDD55F173D /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -83,6 +85,14 @@
 			path = app_iOS;
 			sourceTree = "<group>";
 		};
+		29AAB8E2731A3FF5D552D376 /* models */ = {
+			isa = PBXGroup;
+			children = (
+				57326BBD1750E501F39D0086 /* mod.rs */,
+			);
+			path = models;
+			sourceTree = "<group>";
+		};
 		329C38BE5E8B40354375D0D0 /* bindings */ = {
 			isa = PBXGroup;
 			children = (
@@ -104,6 +114,8 @@
 			children = (
 				17B52554D60D361AFE791C3E /* lib.rs */,
 				1631E4CFBB715FFDBF919C8C /* main.rs */,
+				D36DD3B5713BC2947CDFB065 /* handler */,
+				29AAB8E2731A3FF5D552D376 /* models */,
 			);
 			name = src;
 			path = ../../src;
@@ -128,6 +140,14 @@
 			children = (
 			);
 			path = Externals;
+			sourceTree = "<group>";
+		};
+		D36DD3B5713BC2947CDFB065 /* handler */ = {
+			isa = PBXGroup;
+			children = (
+				ADAD86330811FFC1DA6F969B /* mod.rs */,
+			);
+			path = handler;
 			sourceTree = "<group>";
 		};
 		EE72B6AC647386A11F795E44 /* Products */ = {
