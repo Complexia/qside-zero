@@ -1,5 +1,5 @@
 use scraper::{Html, Selector};
-use reqwest;
+// use reqwest;
 pub mod models;
 pub mod handler;
 // use crate::models;

@@ -78,32 +78,32 @@ const SliderItem = ({ socialUser, fetchSocial }) => {
         // </div >
 
         <div className="carousel-item">
-        <div className="card w-96 glass">
-            <figure>
-                <img className="w-full" src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" alt="car!" />
-            </figure>
-            <div className="relative">
-                <div className="absolute -top-12 left-1/2 transform -translate-x-1/2">
-                    <div className="avatar">
-                        <div className="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                            <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" alt="avatar" />
+            <div className="card w-96 glass">
+                <figure>
+                    <img className="w-full" src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" alt="car!" />
+                </figure>
+                <div className="relative">
+                    <div className="absolute -top-12 left-1/2 transform -translate-x-1/2">
+                        <div className="avatar">
+                            <div className="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                                <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" alt="avatar" />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className="card-body pt-16">
-                <h2 className="card-title">Life hack</h2>
-                {socialUser.description !== "" ? (
-                    <p>{socialUser.description}</p>
-                ) : (
-                    <p>How to park your car at your garage?</p>
-                )}
-                <div className="card-actions justify-end">
-                    <button onClick={() => fetch("Git hub", "url")} className="btn btn-primary">Learn now!</button>
+                <div className="card-body pt-16">
+                    <h2 className="card-title">Life hack</h2>
+                    {socialUser.description !== "" ? (
+                        <p>{socialUser.description}</p>
+                    ) : (
+                        <p>How to park your car at your garage?</p>
+                    )}
+                    <div className="card-actions justify-end">
+                        <button onClick={() => fetch("Git hub", "url")} className="btn btn-primary">Learn now!</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     )
 }
 

@@ -81,6 +81,7 @@ version = "0.1.0"
 dependencies = [
  "reqwest 0.11.27",
  "scraper",
+ "security-framework",
  "serde",
  "serde_json",
  "tauri",
