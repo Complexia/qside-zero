@@ -10,16 +10,59 @@ import { invoke } from "@tauri-apps/api/core";
 import { createClient } from '@/utils/supabase/client';
 import { useEffect, useState } from "react";
 import SliderItem from './sliderItem';
+import { stringify } from 'querystring';
+
 interface MetaData {
-    type: string;
-    image: string;
-    title: string;
-    url: string;
-    description: string;
+    type: String;
+    image: String;
+    url: String;
+    description: String;
+    icon: String;
 }
 
 const Slider = () => {
     // array of user.social will be fetch from server
+    const [meta, setMeta] = useState<MetaData[]>([
+        {
+            type: "Github",
+            url: "https://github.com/vanha777",
+            image: "https://avatars.githubusercontent.com/u/107760796?v=4?s=400",
+            description: "An enigmatic Australian dev with an unconventional journey, obsessed with tech, transparency, and integrity. - vanha777",
+            icon: "https://github.com/fluidicon.png"
+        },
+        {
+            type: "Linkedin",
+            url: "https://www.linkedin.com/in/copycodervanjiro",
+            image: "",
+            description: "",
+            icon: "https://static.licdn.com/aero-v1/sc/h/al2o9zrvru7aqj8e1x2rzsrca"
+        },
+        {
+            type: "Tiktok",
+            url: "https://www.tiktok.com/@eazyhomeiot",
+            image: "",
+            description: "",
+            icon: "../../app/public/tiktok_icon.png"
+        },
+        {
+            type: "Instagram",
+            url: "https://www.instagram.com/eazyhomeiot",
+            image: "",
+            description: "",
+            icon: "https://static.cdninstagram.com/rsrc.php/v3/yB/r/-7Z_RkdLJUX.png"
+        },
+        // {
+        //     type: "My page",
+        //     url: "https://master--stellular-stroopwafel-36ea55.netlify.app",
+        //     image: "",
+        //     description: "",
+        //     icon: ""
+        // },
+    ]);
+    // Function to update meta by type
+    const updateMetaByType = (type: String, newData: Partial<MetaData>) => {
+        setMeta(prevMeta => prevMeta.map(item => item.type === type ? { ...item, ...newData } : item));
+    };
     let socialUser = [
         {
             type: "Github",
@@ -40,7 +83,7 @@ const Slider = () => {
             url: "https://www.tiktok.com/@eazyhomeiot",
             image: "",
             description: "",
-            icon: ""
+            icon: "http://localhost:3000/twitter-image.png"
         },
         {
             type: "Instagram",
@@ -58,10 +101,10 @@ const Slider = () => {
         },
     ];
     //end.
-    const fetchSocial = async () => {
-        console.log("fetching user from top level")
+    const fetchSocial = async (type, url) => {
+        console.log("fetching user from top level", type, url)
+        await callScrapWeb(type, url);
     }
-    const [meta, setMeta] = useState<MetaData | null>(null);
     // this is just for testing
     const [backend, setBackend] = useState("");
     const callGreet = async (name) => {
@@ -77,7 +120,11 @@ const Slider = () => {
         try {
             const x: MetaData = await invoke("scrap_web", { type, url });
             console.log("this is return from Rust-user", x);
-            setMeta(x);
+            updateMetaByType(type, {
+                description: x.description,
+                url: x.url,
+                image: x.image,
+            });
         } catch (error) {
             console.error("Error invoking greet:", error);
         }
@@ -91,7 +138,7 @@ const Slider = () => {
     const { user } = useAuth();
     return (
         <div className="flex carousel carousel-center max-w-md p-4 space-x-4 bg-neutral rounded-box">
-            {socialUser.map((user) => (
+            {meta.map((user) => (
                 <SliderItem socialUser={user} fetchSocial={fetchSocial} />
             ))}
             {/* <div className="carousel-item">

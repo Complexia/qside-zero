@@ -22,11 +22,42 @@ interface SocialUser {
     url: string;
     description: string;
 }
+const getUsernameFromUrl = (url) => {
+    if (!url) return "";
+    const urlParts = url.split('/');
+    return urlParts[urlParts.length - 1];
+};
+
+const getBaseUrl = (url) => {
+    if (!url) return "";
+    const urlParts = url.split('/');
+    if (url.includes("linkedin.com")) {
+        return urlParts.slice(0, 4).join('/') + '/';
+    } else if (url.includes("github.com")) {
+        return urlParts.slice(0, 3).join('/') + '/';
+    } else {
+        return urlParts.slice(0, 3).join('/') + '/';
+    }
+};
 
 const SliderItem = ({ socialUser, fetchSocial }) => {
-    const fetch = (type, url) => {
-        // 
-        console.log("fetch new social ", type);
+    const username = getUsernameFromUrl(socialUser.url);
+    const [edit, setEdit] = useState(false);
+    // const [inputValue, setInputValue] = useState(username || "");
+    const [inputValue, setInputValue] = useState("");
+
+    const fetch = (type) => {
+        if (edit == false) {
+            setEdit(true);
+            return;
+        } else if (edit == true) {
+            let url = getBaseUrl(socialUser.url) + inputValue;
+            console.log("input value", inputValue);
+            console.log("fetch new social ", type);
+            console.log("url ", url);
+            fetchSocial(type, url)
+            setEdit(false);
+        }
     };
     // const [user, setUser] = useState<SocialUser | null>(socialUser);
 
@@ -86,20 +117,44 @@ const SliderItem = ({ socialUser, fetchSocial }) => {
                     <div className="absolute -top-12 left-1/2 transform -translate-x-1/2">
                         <div className="avatar">
                             <div className="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                                <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" alt="avatar" />
+                                {socialUser.image !== "" ? (
+                                    <a href={socialUser.url}>
+                                        <img src={socialUser.image} alt="avatar" />
+                                    </a>
+                                ) : (
+                                    <div className="skeleton w-32 h-32"></div>
+                                )}
+
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className="card-body pt-16">
-                    <h2 className="card-title">Life hack</h2>
+                    <div className=' flex flex-row justify-between items-center'>
+                        {edit == false ? (
+                            <a href={socialUser.url} className="link link-primary">@{username}</a>
+                        ) : (
+                            <input value={inputValue}
+                                onChange={(e) => setInputValue(e.target.value)} type="text" placeholder={username} className="input input-bordered input-primary w-full max-w-xs" />
+                        )}
+                        <img src={socialUser.icon} alt="icon" className="w-12 h-12" />
+                    </div>
+
                     {socialUser.description !== "" ? (
-                        <p>{socialUser.description}</p>
+                        <textarea className="flex textarea" placeholder={socialUser.description}></textarea>
+
                     ) : (
-                        <p>How to park your car at your garage?</p>
+                        <div className="flex flex-col gap-4">
+                            <div className="skeleton h-4 w-20"></div>
+                            <div className="skeleton h-4 w-28"></div>
+                        </div>
                     )}
                     <div className="card-actions justify-end">
-                        <button onClick={() => fetch("Git hub", "url")} className="btn btn-primary">Learn now!</button>
+                        {edit == true ? (
+                            <button onClick={() => fetch(socialUser.type)} className="btn btn-primary">Sync</button>
+                        ) : (
+                            <button onClick={() => fetch(socialUser.type)} className="btn btn-primary">Edit</button>
+                        )}
                     </div>
                 </div>
             </div>
