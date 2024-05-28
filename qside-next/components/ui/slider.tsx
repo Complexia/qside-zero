@@ -33,22 +33,22 @@ const Slider = () => {
         {
             type: "Linkedin",
             url: "https://www.linkedin.com/in/copycodervanjiro",
-            image: "",
-            description: "",
+            image: "https://media.licdn.com/dms/image/D5603AQH3OOu-vOLBwA/profile-displayphoto-shrink_200_200/0/1697969298484?e=2147483647&v=beta&t=PxSbFbcn0UiUGcknfYE3uVgFV9pd84-irlg58dySBEQ",
+            description: "Meet the enigmatic Australian developer who&amp;#39;s making waves in the tech industry 🌊. With… · Experience: StrongRoom AI · Location: Hawthorn East · 102 connections on LinkedIn. View Patrick Ha’s profile on LinkedIn, a professional community of 1 billion members.",
             icon: "https://static.licdn.com/aero-v1/sc/h/al2o9zrvru7aqj8e1x2rzsrca"
         },
         {
             type: "Tiktok",
             url: "https://www.tiktok.com/@eazyhomeiot",
-            image: "",
-            description: "",
+            image: "https://scontent.cdninstagram.com/v/t51.2885-19/364294734_799278335206685_8611054097134129291_n.jpg?stp=dst-jpg_s100x100&_nc_cat=104&ccb=1-7&_nc_sid=3fd06f&_nc_ohc=HiogzKidWqcQ7kNvgEKV5ZT&_nc_ht=scontent.cdninstagram.com&oh=00_AYB5gjsE1DgLDgMy0tXKgOAR8uUecYq_ytxwBfv2Tvqo8Q&oe=665AFE37",
+            description: "@eazyhomeiot 49 Followers, 79 Following, 1177 Likes - Watch awesome short videos created by Eazy Home",
             icon: "http://localhost:3000/twitter-image.png"
         },
         {
             type: "Instagram",
             url: "https://www.instagram.com/eazyhomeiot",
-            image: "",
-            description: "",
+            image: "https://scontent.cdninstagram.com/v/t51.2885-19/364294734_799278335206685_8611054097134129291_n.jpg?stp=dst-jpg_s100x100&_nc_cat=104&ccb=1-7&_nc_sid=3fd06f&_nc_ohc=HiogzKidWqcQ7kNvgEKV5ZT&_nc_ht=scontent.cdninstagram.com&oh=00_AYB5gjsE1DgLDgMy0tXKgOAR8uUecYq_ytxwBfv2Tvqo8Q&oe=665AFE37",
+            description: "151 Followers, 260 Following, 372 Posts - See Instagram photos and videos from Van Ha (&#064;eazyhomeiot)",
             icon: "https://static.cdninstagram.com/rsrc.php/v3/yB/r/-7Z_RkdLJUX.png"
         },
         // {

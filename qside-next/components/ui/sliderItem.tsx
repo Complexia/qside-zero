@@ -61,9 +61,9 @@ const SliderItem = ({ socialUser, fetchSocial }) => {
         }
     };
 
-    // useEffect(() => {
-    //     username = getUsernameFromUrl(socialUser.url);
-    // }, [socialUser]);
+    useEffect(() => {
+        setUsername(getUsernameFromUrl(socialUser.url));
+    }, [socialUser.url]);
     // const [user, setUser] = useState<SocialUser | null>(socialUser);
 
     // const callScrapWeb = async (type: String, url: String) => {
@@ -116,7 +116,7 @@ const SliderItem = ({ socialUser, fetchSocial }) => {
         <div className="carousel-item">
             <div className="card w-96 glass">
                 <figure>
-                    <img className="w-full" src="http://localhost:3000/background.png" alt="car!" />
+                    <img className="w-full" src="http://localhost:3000/opengraph-image.png" alt="car!" />
                 </figure>
                 <div className="relative">
                     <div className="absolute -top-12 left-1/2 transform -translate-x-1/2">

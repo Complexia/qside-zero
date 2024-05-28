@@ -20,7 +20,7 @@ pub async fn tiktok_scrap(url: String) -> crate::models::SocialMetaData {
                   meta.title = user.share_meta.as_ref().map(|x|x.title.clone().unwrap_or_default());
                   meta.description = user.share_meta.as_ref().map(|x|x.desc.clone().unwrap_or_default());
                   let unique_id = user.user_info.as_ref().map(|y|y.user.as_ref().map(|i|i.unique_id.clone()).unwrap_or_default()).unwrap_or_default().unwrap_or_default();
-                  meta.url = Some(format!("https://www.tiktok.com/@{}",unique_id));
+                  meta.url = Some(format!("https://www.tiktok.com/@{}",unique_id).trim_end_matches('/').to_string());
                   println!("User Detail1 : {:#?}", user);
       } else {
           println!("Script tag with the specified id not found.");
@@ -65,7 +65,7 @@ pub async fn instar_scrap(url: String) -> crate::models::SocialMetaData {
 
     // Extract meta url
     if let Some(element) = document.select(&meta_url_selector).next() {
-        meta.url = element.value().attr("content").map(|s| s.to_string());
+        meta.url = element.value().attr("content").map(|s| s.trim_end_matches('/').to_string());
     }
 
     // Extract meta description
@@ -112,7 +112,7 @@ pub async fn linkein_scrap(url: String) -> crate::models::SocialMetaData {
 
     // Extract meta url
     if let Some(element) = document.select(&meta_url_selector).next() {
-        meta.url = element.value().attr("content").map(|s| s.to_string());
+        meta.url = element.value().attr("content").map(|s| s.trim_end_matches('/').to_string());
     }
 
     // Extract meta description
