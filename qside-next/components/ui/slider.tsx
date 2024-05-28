@@ -42,7 +42,7 @@ const Slider = () => {
             url: "https://www.tiktok.com/@eazyhomeiot",
             image: "",
             description: "",
-            icon: "../../app/public/tiktok_icon.png"
+            icon: "http://localhost:3000/twitter-image.png"
         },
         {
             type: "Instagram",
@@ -63,43 +63,43 @@ const Slider = () => {
     const updateMetaByType = (type: String, newData: Partial<MetaData>) => {
         setMeta(prevMeta => prevMeta.map(item => item.type === type ? { ...item, ...newData } : item));
     };
-    let socialUser = [
-        {
-            type: "Github",
-            url: "https://github.com/vanha777",
-            image: "https://avatars.githubusercontent.com/u/107760796?v=4?s=400",
-            description: "An enigmatic Australian dev with an unconventional journey, obsessed with tech, transparency, and integrity. - vanha777",
-            icon: "https://github.com/fluidicon.png"
-        },
-        {
-            type: "Linkedin",
-            url: "https://www.linkedin.com/in/copycodervanjiro/",
-            image: "",
-            description: "",
-            icon: "https://static.licdn.com/aero-v1/sc/h/al2o9zrvru7aqj8e1x2rzsrca"
-        },
-        {
-            type: "Tiktok",
-            url: "https://www.tiktok.com/@eazyhomeiot",
-            image: "",
-            description: "",
-            icon: "http://localhost:3000/twitter-image.png"
-        },
-        {
-            type: "Instagram",
-            url: "https://www.instagram.com/eazyhomeiot",
-            image: "",
-            description: "",
-            icon: ""
-        },
-        {
-            type: "My page",
-            url: "https://master--stellular-stroopwafel-36ea55.netlify.app",
-            image: "",
-            description: "",
-            icon: ""
-        },
-    ];
+    // let socialUser = [
+    //     {
+    //         type: "Github",
+    //         url: "https://github.com/vanha777",
+    //         image: "https://avatars.githubusercontent.com/u/107760796?v=4?s=400",
+    //         description: "An enigmatic Australian dev with an unconventional journey, obsessed with tech, transparency, and integrity. - vanha777",
+    //         icon: "https://github.com/fluidicon.png"
+    //     },
+    //     {
+    //         type: "Linkedin",
+    //         url: "https://www.linkedin.com/in/copycodervanjiro",
+    //         image: "",
+    //         description: "",
+    //         icon: "https://static.licdn.com/aero-v1/sc/h/al2o9zrvru7aqj8e1x2rzsrca"
+    //     },
+    //     {
+    //         type: "Tiktok",
+    //         url: "https://www.tiktok.com/@eazyhomeiot",
+    //         image: "",
+    //         description: "",
+    //         icon: "http://localhost:3000/twitter-image.png"
+    //     },
+    //     {
+    //         type: "Instagram",
+    //         url: "https://www.instagram.com/eazyhomeiot",
+    //         image: "",
+    //         description: "",
+    //         icon: ""
+    //     },
+    //     {
+    //         type: "My page",
+    //         url: "https://master--stellular-stroopwafel-36ea55.netlify.app",
+    //         image: "",
+    //         description: "",
+    //         icon: ""
+    //     },
+    // ];
     //end.
     const fetchSocial = async (type, url) => {
         console.log("fetching user from top level", type, url)

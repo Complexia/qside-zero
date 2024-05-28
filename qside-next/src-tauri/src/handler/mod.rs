@@ -2,6 +2,7 @@ use scraper::{Html, Selector};
 use reqwest;
 
 pub async fn tiktok_scrap(url: String) -> crate::models::SocialMetaData {
+    let url = url.to_lowercase();
     let client = reqwest::Client::new();
     let response = client.get(&url).send().await.unwrap().text().await.unwrap();
     let document = Html::parse_document(&response);
@@ -30,6 +31,7 @@ pub async fn tiktok_scrap(url: String) -> crate::models::SocialMetaData {
 }
 
 pub async fn instar_scrap(url: String) -> crate::models::SocialMetaData {
+    let url = url.to_lowercase();
     let client = reqwest::Client::builder()
         .user_agent("Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1")
         .build().unwrap();
@@ -76,6 +78,7 @@ pub async fn instar_scrap(url: String) -> crate::models::SocialMetaData {
 }
 
 pub async fn linkein_scrap(url: String) -> crate::models::SocialMetaData {
+    let url = url.to_lowercase();
     let client = reqwest::Client::builder()
         .user_agent("Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1")
         .build().unwrap();

@@ -41,8 +41,9 @@ const getBaseUrl = (url) => {
 };
 
 const SliderItem = ({ socialUser, fetchSocial }) => {
-    const username = getUsernameFromUrl(socialUser.url);
+    // let username = getUsernameFromUrl(socialUser.url);
     const [edit, setEdit] = useState(false);
+    const [username, setUsername] = useState(getUsernameFromUrl(socialUser.url));
     // const [inputValue, setInputValue] = useState(username || "");
     const [inputValue, setInputValue] = useState("");
 
@@ -59,6 +60,10 @@ const SliderItem = ({ socialUser, fetchSocial }) => {
             setEdit(false);
         }
     };
+
+    // useEffect(() => {
+    //     username = getUsernameFromUrl(socialUser.url);
+    // }, [socialUser]);
     // const [user, setUser] = useState<SocialUser | null>(socialUser);
 
     // const callScrapWeb = async (type: String, url: String) => {
@@ -111,7 +116,7 @@ const SliderItem = ({ socialUser, fetchSocial }) => {
         <div className="carousel-item">
             <div className="card w-96 glass">
                 <figure>
-                    <img className="w-full" src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" alt="car!" />
+                    <img className="w-full" src="http://localhost:3000/background.png" alt="car!" />
                 </figure>
                 <div className="relative">
                     <div className="absolute -top-12 left-1/2 transform -translate-x-1/2">
