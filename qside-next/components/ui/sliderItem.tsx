@@ -141,7 +141,7 @@ const SliderItem = ({ socialUser, fetchSocial }) => {
 
 
                 <figure className='px-3 pt-3'>
-                    <div className="card w-96 shadow-xl p-2">
+                    <div className="card w-96 shadow-xl p-2 indicator">
 
                         <div style={{ perspective: 1000 }}>
                             <motion.div
@@ -174,7 +174,15 @@ const SliderItem = ({ socialUser, fetchSocial }) => {
                                     // ease: 'easeInOut',
                                 }}
                             >
-                                <img className=" card w-full" src="http://localhost:3000/opengraph-image.png" alt="car!" />
+                                
+                                    <span className="indicator-item indicator-top indicator-start">
+                                        <img className="" src="qside-logo-trans.png" alt="car!" style={{ width: '100px', height: '25px' }} />
+                                    </span>
+
+                                    <img className=" card w-full" src="http://localhost:3000/opengraph-image.png" alt="car!" />
+                                    {/* <img className=" card w-full" src="qside-logo.png" alt="car!" /> */}
+                                
+
                             </motion.div>
                         </div>
                     </div>
