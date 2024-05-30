@@ -102,6 +102,41 @@ const SliderItem = ({ socialUser, fetchSocial }) => {
 
         <div className="carousel-item">
 
+            {/* <div style={{ perspective: 1000 }}>
+                <motion.div
+                    style={{
+                        width: 300,
+                        height: 150,
+                        backgroundColor: 'white',
+                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderRadius: '8px',
+                        fontSize: '1.5rem',
+                        color: '#333',
+                    }}
+                    initial={{
+                        opacity: 1,
+                        rotateX: 0,
+                        rotateY: -7,
+                    }}
+                    animate={{
+                        opacity: 1,
+                        rotateX: 0,
+                        rotateY: 7,
+                    }}
+                    transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        repeatType: 'mirror',
+                        // ease: 'easeInOut',
+                    }}
+                >
+                    Your Business Card
+                </motion.div>
+            </div> */}
+
             {/* <div className="container">
                 <motion.svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -123,10 +158,54 @@ const SliderItem = ({ socialUser, fetchSocial }) => {
 
             <div className="card w-96 glass">
 
+
+
                 <figure className='px-3 pt-3'>
-                    {/* <div className="card w-96 bg-base-100 shadow-xl p-2"> */}
-                        <img className=" card w-full" src="http://localhost:3000/opengraph-image.png" alt="car!" />
-                    {/* </div> */}
+                    <div className="card w-96 shadow-xl p-2 indicator">
+
+                        <div style={{ perspective: 1000 }}>
+                            <motion.div
+                                style={{
+                                    // width: 300,
+                                    // height: 150,
+                                    // backgroundColor: 'white',
+                                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    borderRadius: '8px',
+                                    fontSize: '1.5rem',
+                                    color: '#333',
+                                }}
+                                initial={{
+                                    opacity: 1,
+                                    rotateX: -3,
+                                    rotateY: -7,
+                                }}
+                                animate={{
+                                    opacity: 1,
+                                    rotateX: 3,
+                                    rotateY: 7,
+                                }}
+                                transition={{
+                                    duration: 1.5,
+                                    repeat: Infinity,
+                                    repeatType: 'mirror',
+                                    // ease: 'easeInOut',
+                                }}
+                            >
+                                
+                                    <span className="indicator-item indicator-top indicator-start">
+                                        <img className="" src="qside-logo-trans.png" alt="car!" style={{ width: '100px', height: '25px' }} />
+                                    </span>
+
+                                    <img className=" card w-full" src="http://localhost:3000/opengraph-image.png" alt="car!" />
+                                    {/* <img className=" card w-full" src="qside-logo.png" alt="car!" /> */}
+                                
+
+                            </motion.div>
+                        </div>
+                    </div>
                 </figure>
 
 
