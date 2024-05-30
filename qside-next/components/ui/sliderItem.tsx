@@ -2,7 +2,7 @@
 
 import { scan, textRecord, write, uriRecord, record, TagRecord } from "@tauri-apps/plugin-nfc";
 import { useEffect, useState } from "react";
-
+import { motion } from "framer-motion";
 interface SocialUser {
     type: string;
     image: string;
@@ -82,63 +82,54 @@ const SliderItem = ({ socialUser, fetchSocial }) => {
         }
     };
 
+    const icon = {
+        hidden: {
+            opacity: 0,
+            pathLength: 0,
+            fill: "rgba(255, 255, 255, 0)"
+        },
+        visible: {
+            opacity: 1,
+            pathLength: 1,
+            fill: "rgba(255, 255, 255, 1)"
+        }
+    };
+
     useEffect(() => {
         setUsername(getUsernameFromUrl(socialUser.url));
     }, [socialUser.url]);
-    // const [user, setUser] = useState<SocialUser | null>(socialUser);
-
-    // const callScrapWeb = async (type: String, url: String) => {
-    //     try {
-    //         const x: MetaData = await invoke("scrap_web", { type, url });
-    //         console.log("this is return from Rust-user", x);
-    //         setMeta(x);
-    //     } catch (error) {
-    //         console.error("Error invoking greet:", error);
-    //     }
-    // };
-    // const handleSignOut = async () => {
-
-    //     const supabase = createClient();
-    //     await supabase.auth.signOut();
-    // }
-    //@ts-ignore
-    // const { user } = useAuth();
     return (
-        // <div className="carousel-item">
-        //     <div className="indicator">
-        //         <div className="indicator-item indicator-middle indicator-center badge bg-0">
-        //             <div className="avatar">
-        //                 <div className=" w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-        //                     <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
-        //                 </div>
-        //             </div>
-        //         </div>
-        //         <div className="card w-96 glass">
-
-        //             <figure>
-        //                 <img src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" alt="car!" />
-        //             </figure>
-
-
-        //             <div className="card-body">
-        //                 <h2 className="card-title">Life hack</h2>
-        //                 {socialUser.description != "" ? (
-        //                     <p>{socialUser.description}</p>
-        //                 ) : (<p>How to park your car at your garage?</p>)
-        //                 }
-        //                 <div className="card-actions justify-end">
-        //                     <button onClick={() => fetch("Git hub", "url")} className="btn btn-primary">Learn now!</button>
-        //                 </div>
-        //             </div>
-        //         </div>
-        //     </div>
-        // </div >
 
         <div className="carousel-item">
+
+            {/* <div className="container">
+                <motion.svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 100 100"
+                    className="item"
+                >
+                    <motion.path
+                        d="M0 100V0l50 50 50-50v100L75 75l-25 25-25-25z"
+                        variants={icon}
+                        initial="hidden"
+                        animate="visible"
+                        transition={{
+                            default: { duration: 2, ease: "easeInOut" },
+                            fill: { duration: 2, ease: [1, 0, 0.8, 1] }
+                        }}
+                    />
+                </motion.svg>
+            </div> */}
+
             <div className="card w-96 glass">
-                <figure>
-                    <img className="w-full" src="http://localhost:3000/opengraph-image.png" alt="car!" />
+
+                <figure className='px-3 pt-3'>
+                    {/* <div className="card w-96 bg-base-100 shadow-xl p-2"> */}
+                        <img className=" card w-full" src="http://localhost:3000/opengraph-image.png" alt="car!" />
+                    {/* </div> */}
                 </figure>
+
+
                 <div className="relative">
                     <div className="absolute -top-12 left-1/2 transform -translate-x-1/2">
                         <div className="avatar">
