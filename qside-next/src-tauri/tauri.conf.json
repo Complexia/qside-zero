@@ -1,7 +1,7 @@
 {
   "productName": "Qside",
   "version": "0.1.0",
-  "identifier": "com.tauri.dev",
+  "identifier": "com.qside.dev",
   "build": {
     "frontendDist": "../out",
     "devUrl": "http://localhost:3000",
