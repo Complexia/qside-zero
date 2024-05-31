@@ -4,6 +4,7 @@ import ProfileCard from "@/components/profile/profile-card";
 import WalletCard from "@/components/wallet/wallet-card";
 import { useAuth } from "./providers/authProvider";
 import { IconClose } from "./ui/icons";
+import ActivityCard from "./activity/activity-card";
 
 const Magic = () => {
 
@@ -31,7 +32,7 @@ const Magic = () => {
                     <main className="flex-1 flex flex-col lg:flex-row gap-6">
                         <div className="flex flex-col lg:flex-row lg:space-x-4 space-y-4">
                             <ProfileCard />
-                            <WalletCard />
+                            <ActivityCard />
                         </div>
                     </main>
                 </div>

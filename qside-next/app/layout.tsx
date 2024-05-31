@@ -4,6 +4,7 @@ import AuthProvider from "@/components/providers/authProvider";
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from 'next/headers'
 import Sidebar from "@/components/ui/sidebar";
+import Navbar from "@/components/ui/navbar";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -33,14 +34,21 @@ export default async function RootLayout({
   const { data } = await supabase.from('public_users').select('*').eq('id', user?.id).single()
 
   return (
-    <html lang="en" className={GeistSans.className}>
-      <body className="bg-background text-foreground">
-      <AuthProvider accessToken={accessToken} user={user} public_user={data}>
-        <Sidebar />
-        <main className="min-h-screen flex flex-row items-center justify-center">
-          {children}
-        </main>
-      </AuthProvider>
+    <html lang="en" data-theme="synthwave" className={GeistSans.className}>
+      <body className="">
+        <AuthProvider accessToken={accessToken} user={user} public_user={data}>
+
+
+          <main className="min-h-screen flex flex-col">
+            <div className="block md:hidden">
+              <Sidebar />
+            </div>
+            <div className="hidden md:block">
+              <Navbar />
+            </div>
+            {children}
+          </main>
+        </AuthProvider>
       </body>
     </html>
   );

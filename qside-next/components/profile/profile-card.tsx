@@ -258,7 +258,7 @@ function ProfileCard() {
             {!loading ? (
 
 
-                <div className={`card ${isFlipped ? 'flipped' : ''} card-compact w-96 bg-base-100 shadow-xl `} id="profileCard">
+                <div className={`card ${isFlipped ? 'flipped' : ''} card-compact w-96 bg-base-100 shadow-xl border `} id="profileCard">
                     {isFlipped ? (
                         <div className="rounded-lg">
 
