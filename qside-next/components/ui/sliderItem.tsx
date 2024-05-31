@@ -179,25 +179,25 @@ const SliderItem = ({ socialUser, fetchSocial }) => {
                                 }}
                                 initial={{
                                     opacity: 1,
-                                    rotateX: -3,
-                                    rotateY: -7,
+                                    rotateX: -7,
+                                    rotateY: -10,
                                 }}
                                 animate={{
                                     opacity: 1,
-                                    rotateX: 3,
-                                    rotateY: 7,
+                                    rotateX: 7,
+                                    rotateY: 10,
                                 }}
                                 transition={{
-                                    duration: 1.5,
+                                    duration: 3,
                                     repeat: Infinity,
                                     repeatType: 'mirror',
                                     // ease: 'easeInOut',
                                 }}
                             >
                                 
-                                    <span className="indicator-item indicator-top indicator-start">
+                                    {/* <span className="indicator-item indicator-top indicator-start">
                                         <img className="" src="qside-logo-trans.png" alt="car!" style={{ width: '100px', height: '25px' }} />
-                                    </span>
+                                    </span> */}
 
                                     <img className=" card w-full" src="http://localhost:3000/opengraph-image.png" alt="car!" />
                                     {/* <img className=" card w-full" src="qside-logo.png" alt="car!" /> */}
