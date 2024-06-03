@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "python-backend"
+name = "qside-py"
 version = "0.1.0"
 description = ""
 authors = ["Complexia <complexia701@gmail.com>"]
 readme = "README.md"
-packages = [{include = "python_backend"}]
+
 
 [tool.poetry.dependencies]
 python = "^3.11"

@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.routes import router
 
-from src.models.chat import ChatPayload
+
 
 
 
@@ -26,5 +26,6 @@ app.add_middleware(
 app.include_router(router)
 
 if __name__ == '__main__':
+    print("Qside server running on port 8000 🚀")
     uvicorn.run("app:app", host='0.0.0.0', port=8000)
 
