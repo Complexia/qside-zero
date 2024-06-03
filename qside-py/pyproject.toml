@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "python-backend"
+version = "0.1.0"
+description = ""
+authors = ["Complexia <complexia701@gmail.com>"]
+readme = "README.md"
+packages = [{include = "python_backend"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.105.0"
+uvicorn = {extras = ["standard"], version = "^0.25.0"}
+pydantic = "1.10.8"
+supabase = "^2.3.0"
+pyjwt = "^2.8.0"
+python-dotenv = "^1.0.0"
+openai = "^1.6.1"
+sentence-transformers = "^2.2.2"
+bs4 = "^0.0.1"
+docarray = "0.32.1"
+tiktoken = "0.5.1"
+langchainhub = "^0.1.14"
+tavily-python = "^0.3.0"
+
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.28.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
