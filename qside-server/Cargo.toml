@@ -1,0 +1,24 @@
+[package]
+name = "qside-server"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+security-framework = "=2.10"
+serde_json = "1.0.117"
+serde = { version = "1.0.203", features = ["derive"] }
+reqwest = { version = "0.12.3", features = ["json", "gzip"] }
+scraper = "0.19.0"
+thiserror = "1.0.48"
+
+axum = { version= "0.6.20", features = ["multipart"]}
+axum-server = { version = "0.5.1", features = ["tls-rustls"] }
+clap = "2.33.3"
+tokio = { version = "1", features = ["full"] }
+url = "2.5.0"
+dotenv = "0.15.0"
+
+tower = { version = "0.4", features = ["util", "make"] }
+tower-http = { version = "0.4.0", features = ["cors", "fs", "compression-gzip", "decompression-gzip", "trace"] }

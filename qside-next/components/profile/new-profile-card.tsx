@@ -82,6 +82,9 @@ const ProfileCard = ({ username }) => {
     const [socialInputValue, setSocialInputValue] = useState('');
     const [socialType, setSocialType] = useState('');
 
+    const [isHovered, setIsHovered] = useState(false);
+    const [showInfoBubble, setShowInfoBubble] = useState(false);
+
     const toggleInput = (socialType) => {
         setSocialType(socialType);
         setInputVisible(!isInputVisible);
@@ -100,6 +103,22 @@ const ProfileCard = ({ username }) => {
         if (e.key === 'Enter') {
             saveInput();
         }
+    };
+
+    const handleMouseEnter = () => {
+
+        setIsHovered(true);
+        setTimeout(() => {
+            if (isHovered) {
+                console.log("hhh")
+                setShowInfoBubble(true);
+            }
+        }, 1500);
+    };
+
+    const handleMouseLeave = () => {
+        setIsHovered(false);
+        setShowInfoBubble(false);
     };
 
     const handleSave = async (url) => {
@@ -470,7 +489,11 @@ const ProfileCard = ({ username }) => {
                                             }}
                                             rel="noopener noreferrer"
                                         >
-                                            <IconComponent className="w-6 h-6" />
+
+                                            {/* @ts-ignore */}
+                                            <IconComponent className="w-6 h-6" username={value.username} />
+
+
                                         </button>
                                         {isInputVisible && (
                                             <div className="mt-2 flex items-center">
