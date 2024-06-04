@@ -45,45 +45,85 @@ const ProfileCard = ({ username }) => {
 
     // @ts-ignore
     const { public_user } = useAuth();
+    const username_from_params = username;
+    
 
-    // const socialUser = {
 
-    //     type: "Github",
-    //     url: "https://github.com/vanha777",
-    //     image: "https://avatars.githubusercontent.com/u/107760796?v=4?s=400",
-    //     description: "An enigmatic Australian dev with an unconventional journey, obsessed with tech, transparency, and integrity. - vanha777",
-    //     icon: "https://github.com/fluidicon.png"
+    const [loading, setLoading] = useState(true);
+    const [mad_user, setMadUser] = useState<any>(null);
+    const [isConnected, setIsConnected] = useState<boolean>(false);
 
-    // }
+    useEffect(() => {
+        const fetchUser = async () => {
+            setLoading(true);
+            let user: any = null;
+            const supabase = createClient();
+            if (username) {
 
-    // let username = getUsernameFromUrl(socialUser.url);
+                const { data, error } = await supabase
+                    .from('public_users')
+                    .select('*')
+                    .eq('username', username)
+                    .single();
+                if (error) {
+                    console.error('Error fetching user:', error);
+                    return;
+                }
+                console.log('Data:', data);
+                user = data;
 
-    // useEffect(() => {
-    //     const supabase = createClient();
 
-    // }, []);
-    const [socialUser, setSocialUser] = useState<any>(null);
+            }
+            else {
+                user = public_user;
+            }
+
+            setMadUser(user);
+
+
+            setImageSrc(`${process.env.NEXT_PUBLIC_SUPABASE_BUCKET_URL_DP}/${user?.image_info?.uuid}`);
+
+            let targetUsername = username;
+            let sourceUsername = public_user?.username;
+
+            let usercon = [sourceUsername, targetUsername];
+
+
+            usercon.sort((a, b) => a.localeCompare(b));
+            let userconString = usercon.join('');
+
+            const { data: data, error: error1 } = await supabase
+                .from('connections')
+                .select('*').eq('usercon', userconString).single();
+
+            console.log("Data1:", data)
+            setIsConnected(data);
+            setLoading(false);
+        }
+        fetchUser();
+
+
+    }, []);
+
     const [edit, setEdit] = useState(false);
-    const [social_username, setSocialUsername] = useState(getUsernameFromUrl(socialUser?.url));
-    // const [inputValue, setInputValue] = useState(username || "");
-    const [inputValue, setInputValue] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [displaySocial, setDisplaySocial] = useState(public_user.primary_social);
-    const [bio, setBio] = useState(public_user.bio);
+
+
+
+
+    const [bio, setBio] = useState<any>(null);
     const [updating, setUpdating] = useState(false);
 
     const [imageChanged, setImageChanged] = useState(false);
     const [file, setFile] = useState<any>(null);
 
 
-    const [imageSrc, setImageSrc] = useState<any>(`${process.env.NEXT_PUBLIC_SUPABASE_BUCKET_URL_DP}/${public_user?.image_info?.uuid}`);
+    const [imageSrc, setImageSrc] = useState<any>(null);
 
     const [isInputVisible, setInputVisible] = useState(false);
     const [socialInputValue, setSocialInputValue] = useState('');
     const [socialType, setSocialType] = useState('');
 
-    const [isHovered, setIsHovered] = useState(false);
-    const [showInfoBubble, setShowInfoBubble] = useState(false);
+
 
     const toggleInput = (socialType) => {
         setSocialType(socialType);
@@ -105,21 +145,7 @@ const ProfileCard = ({ username }) => {
         }
     };
 
-    const handleMouseEnter = () => {
 
-        setIsHovered(true);
-        setTimeout(() => {
-            if (isHovered) {
-                console.log("hhh")
-                setShowInfoBubble(true);
-            }
-        }, 1500);
-    };
-
-    const handleMouseLeave = () => {
-        setIsHovered(false);
-        setShowInfoBubble(false);
-    };
 
     const handleSave = async (url) => {
         const supabase = createClient();
@@ -127,14 +153,14 @@ const ProfileCard = ({ username }) => {
             .from('public_users')
             .update({
                 new_socials: {
-                    ...public_user.new_socials,
+                    ...mad_user.new_socials,
                     [socialType]: {
-                        ...public_user.new_socials[socialType],
+                        ...mad_user.new_socials[socialType],
                         url: url,
                     },
                 },
             })
-            .eq('id', public_user.id)
+            .eq('id', mad_user.id)
             .single();
 
         if (error) {
@@ -172,7 +198,7 @@ const ProfileCard = ({ username }) => {
         const uuid = uuidv4();
         const supabase = createClient();
 
-        const old_image_url = public_user?.image_info?.uuid;
+        const old_image_url = mad_user?.image_info?.uuid;
 
         if (file) {
 
@@ -198,7 +224,7 @@ const ProfileCard = ({ username }) => {
                 .update({
                     image_info: image_info
                 })
-                .eq('id', public_user.id);
+                .eq('id', mad_user.id);
 
             if (error1) {
                 // Handle error
@@ -246,7 +272,7 @@ const ProfileCard = ({ username }) => {
             .update({
                 bio: bio,
             })
-            .eq('id', public_user.id)
+            .eq('id', mad_user.id)
             .single();
 
         if (error) {
@@ -258,69 +284,7 @@ const ProfileCard = ({ username }) => {
         setUpdating(false);
     }
 
-    // useEffect(() => {
 
-    //     const fetchSocialUse = async (type, url) => {
-    //         setLoading(true);
-    //         let payload = {
-    //             entity: type,
-    //             url: url,
-    //         };
-
-    //         let resp = await fetch("/server/scrape", {
-    //             method: "POST",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             },
-    //             body: JSON.stringify(payload),
-    //         })
-    //         let response = await resp.json();
-    //         setSocialUser(response);
-    //         setLoading(false);
-    //         console.log("response", response)
-
-
-    //     }
-
-    //     console.log(public_user.new_socials[public_user.primary_social]?.url);
-
-    //     fetchSocialUse(displaySocial, public_user.new_socials[displaySocial]?.url);
-    // }, [displaySocial]);
-
-    // const fetchStuff = (type) => {
-    //     if (edit == false) {
-    //         setEdit(true);
-    //         return;
-    //     } else if (edit == true) {
-    //         let url = getBaseUrl(socialUser.url) + inputValue;
-    //         console.log("input value", inputValue);
-    //         console.log("fetch new social ", type);
-    //         console.log("url ", url);
-    //         fetchSocial(type, url)
-    //         setEdit(false);
-    //     }
-    // };
-
-    // const icon = {
-    //     hidden: {
-    //         opacity: 0,
-    //         pathLength: 0,
-    //         fill: "rgba(255, 255, 255, 0)"
-    //     },
-    //     visible: {
-    //         opacity: 1,
-    //         pathLength: 1,
-    //         fill: "rgba(255, 255, 255, 1)"
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     setSocialUsername(getUsernameFromUrl(socialUser.url));
-    // }, [socialUser.url]);
-
-
-
-    // const [iconInputValue, setIconInputValue] = useState(social_username || "");
 
 
     if (loading) {
@@ -473,18 +437,18 @@ const ProfileCard = ({ username }) => {
 
                     <div className='flex flex-row justify-between items-center'>
 
-                        <a href="#" className="link link-primary">@{public_user.username}</a>
+                        <a href="#" className="link link-primary">@{mad_user.username}</a>
 
 
                         <div className="flex flex-row space-x-2">
-                            {Object.entries(public_user.new_socials).map(([key, value]) => {
+                            {Object.entries(mad_user.new_socials).map(([key, value]) => {
                                 const IconComponent = iconComponents[key];
                                 return IconComponent ? (
                                     <div key={key}>
                                         <button
                                             className={edit ? 'subtleRotate' : ''}
                                             onClick={() => {
-                                                setDisplaySocial(key);
+
                                                 toggleInput(key);
                                             }}
                                             rel="noopener noreferrer"
@@ -522,13 +486,13 @@ const ProfileCard = ({ username }) => {
 
                     <div className="">
                         {edit == false ? (
-                            <h3 className="mt-6 text-sm font-medium text-primary">{bio}</h3>
+                            <h3 className="mt-6 text-sm font-medium text-primary">{mad_user.bio}</h3>
 
                         ) : (
                             <textarea
-                                value={public_user.bio}
+                                value={mad_user.bio}
                                 onChange={(e) => setBio(e.target.value)}
-                                placeholder={public_user.bio}
+                                placeholder={mad_user.bio}
                                 className="flex textarea min-h-24 w-full max-w-xs mt-2 resize-none text-primary bg-base-100 border border-base-200 rounded-md p-2 focus:border-primary focus:bg-base-200 focus:text-primary"
                             />
 
@@ -539,32 +503,47 @@ const ProfileCard = ({ username }) => {
 
 
                     <div className="flex justify-end text-primary">
-                        {edit == true ? (
-                            updating ? (
-                                <IconSpinner className="w-6 h-6 animate-spin" />
+                        {username_from_params ? (
+
+                            isConnected ? (
+                                <button className="btn btn-success h-8 min-h-8" >Connected</button>
                             ) : (
-                                <button onClick={() => saveBio()}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-                                    </svg>
+
+                                <button
+                                    className="btn btn-primary h-8 min-h-8"
+                                    disabled={!username_from_params || (mad_user && username_from_params === mad_user.username)}
+                                >
+                                    Connect
                                 </button>
 
                             )
-
                         ) : (
-                            <div className="flex justify-end mt-auto text-primary" id="settings">
-                                <button onClick={() => setEdit(true)}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-gear" viewBox="0 0 16 16">
-                                        <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0" />
-                                        <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z" />
-                                    </svg>
-                                </button>
-                            </div>
+                            edit ? (
+                                updating ? (
+                                    <IconSpinner className="w-6 h-6 animate-spin" />
+                                ) : (
+                                    <button onClick={() => saveBio()}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                                        </svg>
+                                    </button>
+                                )
+                            ) : (
+                                <div className="flex justify-end mt-auto text-primary" id="settings">
+                                    <button onClick={() => setEdit(true)}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-gear" viewBox="0 0 16 16">
+                                            <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0" />
+                                            <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            )
                         )}
+
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
