@@ -19,6 +19,8 @@ const Navbar = () => {
 
         <nav className="w-full flex justify-center bg-base-600">
             <div className="w-screen flex justify-between items-center p-3 ml-4 text-sm">
+
+
                 <Link className="" href="/">
                     <div className="w-full flex flex-row justify-center items-center">
 
@@ -31,8 +33,21 @@ const Navbar = () => {
                     </div>
                 </Link>
 
+
+
+
+
                 <div className="flex flex-row  space-x-8">
-                    <button className="py-2 hover:bg-btn-background-hover rounded-md px-2 ">
+                    <Link className="" href="/qrmagic">
+                        <button
+                            className="btn btn-primary py-2 px-2 h-8 min-h-8 min-w-24"
+                        >
+                            Connect
+                        </button>
+                    </Link>
+
+
+                    <button className="py-2 hover:bg-btn-background-hover rounded-md px-2  ">
                         Connections
                     </button>
 
@@ -42,22 +57,22 @@ const Navbar = () => {
 
 
 
-                    
-                        {/* <div>
+
+                    {/* <div>
                             hello
 
                         </div> */}
-                        {!user ? (
+                    {!user ? (
 
-                            <LoginButtonGoogle />
+                        <LoginButtonGoogle />
 
 
-                        ) : (
+                    ) : (
 
-                            <button className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover" onClick={() => handleSignOut()}>Sign out</button>
+                        <button className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover" onClick={() => handleSignOut()}>Sign out</button>
 
-                        )}
-                    
+                    )}
+
 
 
 

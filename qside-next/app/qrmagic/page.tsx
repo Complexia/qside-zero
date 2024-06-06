@@ -7,8 +7,10 @@ import { useAuth } from '@/components/providers/authProvider';
 const QrMagic = () => {
     // @ts-ignore
     const { public_user } = useAuth();
-    const qrUrl = `${process.env.NEXT_PUBLIC_APP_URL}/qr-connect/connect?targetUsername=${public_user?.username}`;
+    // const qrUrl = `${process.env.NEXT_PUBLIC_APP_URL}/qr-connect/connect?targetUsername=${public_user?.username}`;
+    const qrUrl = `${process.env.NEXT_PUBLIC_APP_URL}/${public_user?.username}?category=qr`;
     const qrContainerRef = useRef<any>(null);
+    console.log(qrUrl)
 
 
 
