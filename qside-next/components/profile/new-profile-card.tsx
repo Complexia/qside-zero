@@ -46,7 +46,7 @@ const ProfileCard = ({ username }) => {
     // @ts-ignore
     const { public_user } = useAuth();
     const username_from_params = username;
-    
+
 
 
     const [loading, setLoading] = useState(true);
@@ -124,6 +124,61 @@ const ProfileCard = ({ username }) => {
     const [isInputVisible, setInputVisible] = useState(false);
     const [socialInputValue, setSocialInputValue] = useState('');
     const [socialType, setSocialType] = useState('');
+
+    const handleConnect = async () => {
+        const supabase = createClient();
+
+        let targetUsername = username;
+        let sourceUsername = public_user?.username;
+
+        let usercon = [sourceUsername, targetUsername];
+
+        usercon.sort((a, b) => a.localeCompare(b));
+
+        let userconString = usercon.join('');
+
+        try {
+            const { data, error } = await supabase
+                .from('connections')
+                .insert({
+                    usercon: userconString,
+                    category: 'web'
+                }).select();
+
+
+            if (error) {
+                // Handle error
+                console.error('Error creating connection:', error.message);
+                return;
+            }
+
+            if (data) {
+
+                const { data: data1, error: error1 } = await supabase
+                    .from('public_users')
+                    .update({
+                        connections: public_user?.connections ? [...public_user?.connections, data[0].id] : [data[0].id]
+                    })
+                    .eq('id', public_user.id);
+
+                if (error) {
+                    // Handle error
+                    console.error('Error updating user:', error1);
+                    return;
+                }
+
+            }
+
+
+        } catch (error) {
+            console.error("Error..:", error);
+        }
+
+
+
+
+
+    }
 
 
 
@@ -513,6 +568,7 @@ const ProfileCard = ({ username }) => {
 
                                 <button
                                     className="btn btn-primary h-8 min-h-8"
+                                    onClick={() => handleConnect()}
                                     disabled={!username_from_params || (mad_user && username_from_params === mad_user.username)}
                                 >
                                     Connect
