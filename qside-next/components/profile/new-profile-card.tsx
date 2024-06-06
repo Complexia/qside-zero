@@ -359,59 +359,7 @@ const ProfileCard = ({ username }) => {
 
         <div className="carousel-item">
 
-            {/* <div style={{ perspective: 1000 }}>
-                <motion.div
-                    style={{
-                        width: 300,
-                        height: 150,
-                        backgroundColor: 'white',
-                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: '8px',
-                        fontSize: '1.5rem',
-                        color: '#333',
-                    }}
-                    initial={{
-                        opacity: 1,
-                        rotateX: 0,
-                        rotateY: -7,
-                    }}
-                    animate={{
-                        opacity: 1,
-                        rotateX: 0,
-                        rotateY: 7,
-                    }}
-                    transition={{
-                        duration: 3,
-                        repeat: Infinity,
-                        repeatType: 'mirror',
-                        // ease: 'easeInOut',
-                    }}
-                >
-                    Your Business Card
-                </motion.div>
-            </div> */}
-
-            {/* <div className="container">
-                <motion.svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 100 100"
-                    className="item"
-                >
-                    <motion.path
-                        d="M0 100V0l50 50 50-50v100L75 75l-25 25-25-25z"
-                        variants={icon}
-                        initial="hidden"
-                        animate="visible"
-                        transition={{
-                            default: { duration: 2, ease: "easeInOut" },
-                            fill: { duration: 2, ease: [1, 0, 0.8, 1] }
-                        }}
-                    />
-                </motion.svg>
-            </div> */}
+            
 
             <div className="card w-96 glass">
 
@@ -423,9 +371,7 @@ const ProfileCard = ({ username }) => {
                         <div style={{ perspective: 1000 }}>
                             <motion.div
                                 style={{
-                                    // width: 300,
-                                    // height: 150,
-                                    // backgroundColor: 'white',
+                                    
                                     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
                                     display: 'flex',
                                     alignItems: 'center',
@@ -448,7 +394,7 @@ const ProfileCard = ({ username }) => {
                                     duration: 1.5,
                                     repeat: Infinity,
                                     repeatType: 'mirror',
-                                    // ease: 'easeInOut',
+                                    
                                 }}
                             >
 
@@ -457,7 +403,7 @@ const ProfileCard = ({ username }) => {
                                 </span>
 
                                 <img className=" card w-full" src="http://localhost:3000/opengraph-image.png" alt="car!" />
-                                {/* <img className=" card w-full" src="qside-logo.png" alt="car!" /> */}
+                              
 
 
                             </motion.div>
@@ -559,7 +505,7 @@ const ProfileCard = ({ username }) => {
                     </div>
 
 
-                    <div className="flex justify-end text-primary">
+                    <div className="flex justify-end text-primary mt-auto">
                         {username_from_params ? (
 
                             isConnected ? (

@@ -21,7 +21,10 @@ const ActivityCard = () => {
 
 
     return (
-        <div className="card card-compact w-96 bg-base-100 shadow-xl border">
+        <div className="card w-96 glass">
+
+
+
             <div className="card-body">
                 <div className="stats stats-vertical ">
                     <div className="stat">
@@ -30,13 +33,24 @@ const ActivityCard = () => {
                         <div className="stat-title">Activity history for @Complexia</div>
                     </div>
                 </div>
-                <div className="flex flex-col space-y-4 mt-4 mx-6 my-2">
+                <div className="flex flex-col space-y-4 mt-4">
                     {itemsToShow.map((item, index) => (
                         <Link href={item.url} key={index}>
-                            <span className="activity-item block">
-                                <div className="text-base">{item.description}</div>
-                                <div className="text-sm text-gray-500">{item.date}</div>
-                            </span>
+                            <div className="chat chat-start">
+                                <div className="chat-image avatar">
+                                    <div className="w-10 rounded-full">
+                                        <img alt="Tailwind CSS chat bubble component" src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                                    </div>
+                                </div>
+                                <div className="chat-header">
+                                    {item.type}
+                                    <time className="text-xs opacity-50 ml-2">{item.date}</time>
+                                </div>
+                                <div className="chat-bubble">{item.description}</div>
+                                <div className="chat-footer opacity-50">
+                                    Delivered
+                                </div>
+                            </div>
                         </Link>
                     ))}
                 </div>
@@ -51,6 +65,7 @@ const ActivityCard = () => {
                     <button className="btn btn-primary w-full">Claim wallet</button>
                 </div>
             </div>
+
         </div>
 
     )
