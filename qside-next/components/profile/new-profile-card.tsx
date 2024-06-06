@@ -83,6 +83,8 @@ const ProfileCard = ({ username }) => {
 
             setImageSrc(`${process.env.NEXT_PUBLIC_SUPABASE_BUCKET_URL_DP}/${user?.image_info?.uuid}`);
 
+            setBio(user?.bio);
+
             let targetUsername = username;
             let sourceUsername = public_user?.username;
 
