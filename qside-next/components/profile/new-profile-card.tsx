@@ -3,7 +3,7 @@
 import "./style.css"
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { IconDiscord, IconGitHub, IconInstagram, IconLinkedIn, IconSpinner, IconTelegram, IconX } from "../ui/icons";
+import { IconDiscord, IconGitHub, IconInstagram, IconLinkedIn, IconPlus, IconSpinner, IconTelegram, IconX } from "../ui/icons";
 import { createClient } from "@/utils/supabase/client";
 import { useAuth } from "../providers/authProvider";
 import { v4 as uuidv4 } from 'uuid';
@@ -38,10 +38,11 @@ const iconComponents = {
     "github": IconGitHub,
     "linkedin": IconLinkedIn,
     "instagram": IconInstagram,
+    "plus": IconPlus,
     // Add other mappings as needed
 };
 
-const ProfileCard = ({ username }) => {
+const ProfileCard = ({ username, category }) => {
 
     // @ts-ignore
     const { public_user } = useAuth();
@@ -99,7 +100,11 @@ const ProfileCard = ({ username }) => {
                 .select('*').eq('usercon', userconString).single();
 
             console.log("Data1:", data)
-            setIsConnected(data);
+            let isConnectedS = data ? true : false;
+            console.log("isConnectedS:", isConnectedS);
+            setIsConnected(isConnectedS);
+            console.log("is", username_from_params, public_user?.username)
+            console.log("hhey", !username_from_params || (mad_user && username_from_params === mad_user.username))
             setLoading(false);
         }
         fetchUser();
@@ -142,7 +147,7 @@ const ProfileCard = ({ username }) => {
                 .from('connections')
                 .insert({
                     usercon: userconString,
-                    category: 'web'
+                    category: category ? category : "web",
                 }).select();
 
 
@@ -167,7 +172,33 @@ const ProfileCard = ({ username }) => {
                     return;
                 }
 
+                const { data: data3, error: error3 } = await supabase
+                    .from('public_users')
+                    .update({
+                        connections: public_user?.connections ? [...public_user?.connections, data[0].id] : [data[0].id]
+                    })
+                    .eq('id', mad_user.id);
+
+                const activity_payload = {
+                    type: "Connection",
+                    description: `Connected with user @${targetUsername}`,
+                    user_id: public_user.id,
+                    other_user: mad_user.id,
+                }
+
+                const { data: data2, error: error2 } = await supabase
+                    .from('activity')
+                    .insert(activity_payload)
+                    .select();
+
+                if (error) {
+                    // Handle error
+                    console.error('Error updating user:', error1);
+                    return;
+                }
+
             }
+            setIsConnected(true);
 
 
         } catch (error) {
@@ -359,7 +390,7 @@ const ProfileCard = ({ username }) => {
 
         <div className="carousel-item">
 
-            
+
 
             <div className="card w-96 glass">
 
@@ -371,7 +402,7 @@ const ProfileCard = ({ username }) => {
                         <div style={{ perspective: 1000 }}>
                             <motion.div
                                 style={{
-                                    
+
                                     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
                                     display: 'flex',
                                     alignItems: 'center',
@@ -394,7 +425,7 @@ const ProfileCard = ({ username }) => {
                                     duration: 1.5,
                                     repeat: Infinity,
                                     repeatType: 'mirror',
-                                    
+
                                 }}
                             >
 
@@ -403,7 +434,7 @@ const ProfileCard = ({ username }) => {
                                 </span>
 
                                 <img className=" card w-full" src="http://localhost:3000/opengraph-image.png" alt="car!" />
-                              
+
 
 
                             </motion.div>
@@ -440,10 +471,11 @@ const ProfileCard = ({ username }) => {
 
                     <div className='flex flex-row justify-between items-center'>
 
-                        <a href="#" className="link link-primary">@{mad_user.username}</a>
+                        <a href={`/${mad_user.username}`} className="link link-primary">@{mad_user.username}</a>
 
 
                         <div className="flex flex-row space-x-2">
+
                             {Object.entries(mad_user.new_socials).map(([key, value]) => {
                                 const IconComponent = iconComponents[key];
                                 return IconComponent ? (
@@ -462,27 +494,27 @@ const ProfileCard = ({ username }) => {
 
 
                                         </button>
-                                        {isInputVisible && (
-                                            <div className="mt-2 flex items-center">
-                                                <input
-                                                    type="text"
-                                                    // @ts-ignore
-                                                    placeholder={value.url}
-                                                    value={socialInputValue}
-                                                    onChange={handleInputChange}
-                                                    onKeyPress={handleKeyPress}
-                                                    className="border p-1 mr-2"
-                                                />
-                                                <button onClick={() => saveInput()}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor" className="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        )}
+
                                     </div>
                                 ) : null;
                             })}
+                            <div className="bg-primary rounded-full max-h-6">
+                                <button
+                                    className={edit ? 'subtleRotate' : ''}
+                                    onClick={() => {
+
+                                        // toggleInput(key);
+                                    }}
+                                    rel="noopener noreferrer"
+                                >
+
+                                    {/* @ts-ignore */}
+                                    <IconPlus className="w-6 h-6" />
+
+
+                                </button>
+
+                            </div>
                         </div>
                     </div>
 
@@ -504,6 +536,10 @@ const ProfileCard = ({ username }) => {
 
                     </div>
 
+                    <div id="links" className="mt-4">
+                        <span className="link link-primary">Notable links</span>
+                    </div>
+
 
                     <div className="flex justify-end text-primary mt-auto">
                         {username_from_params ? (
@@ -515,7 +551,7 @@ const ProfileCard = ({ username }) => {
                                 <button
                                     className="btn btn-primary h-8 min-h-8"
                                     onClick={() => handleConnect()}
-                                    disabled={!username_from_params || (mad_user && username_from_params === mad_user.username)}
+                                    disabled={!username_from_params || (public_user && username_from_params === public_user?.username)}
                                 >
                                     Connect
                                 </button>

@@ -4,7 +4,7 @@ import ProfileCard from "./profile/new-profile-card";
 import { useAuth } from "./providers/authProvider";
 import WalletCard from "./wallet/wallet-card";
 
-const Magic = ({ username }) => {
+const Magic = ({ username, category }) => {
 
     
     
@@ -15,7 +15,7 @@ const Magic = ({ username }) => {
 
                 <main className="flex-1 flex flex-col lg:flex-row gap-6">
                     <div className="flex flex-col lg:flex-row lg:space-x-4 space-y-4">
-                        <ProfileCard username={username} />
+                        <ProfileCard username={username} category={category}/>
                         
                     </div>
                 </main>

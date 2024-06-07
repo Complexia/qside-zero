@@ -1,7 +1,7 @@
 "use client";
 
 import { LoginButtonGoogle } from "@/components/auth/googleLogin";
-import ProfileCard from "@/components/profile/profile-card-1";
+
 import { useAuth } from "@/components/providers/authProvider";
 import { createClient } from "@/utils/supabase/client";
 import { useEffect, useState } from "react";

@@ -1,12 +1,17 @@
 import Magic from "@/components/magic";
 
 
-const ProfilePage = ({ params }: { params: { slug: string } }) => {
-    const username = params.slug[0];
-    console.log(username)
+
+
+const ProfilePage = (context ) => {
+   
+    const username = context.params.slug[0]
+    
+    const category = context.searchParams.category;
+    
     return (
 
-       <Magic username={username} /> 
+       <Magic username={username} category={category}/> 
 
     )
 }
