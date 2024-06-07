@@ -184,6 +184,8 @@ const ProfileCard = ({ username, category }) => {
                     description: `Connected with user @${targetUsername}`,
                     user_id: public_user.id,
                     other_user: mad_user.id,
+                    username: public_user.username,
+                    other_username: targetUsername,
                 }
 
                 const { data: data2, error: error2 } = await supabase
