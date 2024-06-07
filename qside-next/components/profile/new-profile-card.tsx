@@ -20,6 +20,10 @@ const getUsernameFromUrl = (url) => {
     return urlParts[urlParts.length - 1];
 };
 
+const capitalizeFirstLetter = (str: string) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
 const getBaseUrl = (url) => {
     if (!url) return "";
     const urlParts = url.split('/');
@@ -53,6 +57,7 @@ const ProfileCard = ({ username, category }) => {
     const [loading, setLoading] = useState(true);
     const [mad_user, setMadUser] = useState<any>(null);
     const [isConnected, setIsConnected] = useState<boolean>(false);
+    const [socialsExpanded, setSocialsExpanded] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -331,6 +336,40 @@ const ProfileCard = ({ username, category }) => {
 
     }
 
+    
+
+
+    const expandedSocials = () => {
+        return (
+            <div>
+
+                <div className="flex flex-col space-y-2 text-primary w-full ">
+                    {Object.entries(mad_user.new_socials).map(([key, value]) => {
+                        const IconComponent = iconComponents[key];
+                        const social = value as any;
+                        return IconComponent ? (
+                            <div key={key} className="flex items-center space-x-2 border rounded-lg px-2 py-2">
+                                <button
+                                    onClick={() => {
+                                        toggleInput(key);
+                                    }}
+                                    rel="noopener noreferrer"
+                                    className="flex items-center w-full"
+                                >
+                                    <IconComponent className="w-6 h-6" />
+                                    <span className="mx-auto">{social.name}</span>
+                                </button>
+                            </div>
+                        ) : null;
+                    })}
+                </div>
+
+
+
+            </div>
+        )
+    }
+
 
 
 
@@ -405,7 +444,7 @@ const ProfileCard = ({ username, category }) => {
                             <motion.div
                                 style={{
 
-                                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                                    boxShadow: '0 6px 8px rgba(0, 0, 0, 0.1)',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
@@ -538,9 +577,11 @@ const ProfileCard = ({ username, category }) => {
 
                     </div>
 
-                    <div id="links" className="mt-4">
-                        <span className="link link-primary">Notable links</span>
+                    <div id="links" className="mt-4" onClick={() => setSocialsExpanded(!socialsExpanded)}>
+                        <span className="link link-primary">Socials ↓</span>
                     </div>
+
+                    { socialsExpanded && expandedSocials()}
 
 
                     <div className="flex justify-end text-primary mt-auto">
