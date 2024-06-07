@@ -498,23 +498,23 @@ const ProfileCard = ({ username, category }) => {
                                     </div>
                                 ) : null;
                             })}
-                            <div className="bg-primary rounded-full max-h-6">
-                                <button
-                                    className={edit ? 'subtleRotate' : ''}
-                                    onClick={() => {
+                            {!username_from_params && (
+                                <div className="bg-primary rounded-full max-h-6">
+                                    <button
+                                        className={edit ? 'subtleRotate' : ''}
+                                        onClick={() => {
 
-                                        // toggleInput(key);
-                                    }}
-                                    rel="noopener noreferrer"
-                                >
+                                            // toggleInput(key);
+                                        }}
+                                        rel="noopener noreferrer"
+                                    >
 
-                                    {/* @ts-ignore */}
-                                    <IconPlus className="w-6 h-6" />
+                                        <IconPlus className="w-6 h-6" />
+                                    </button>
+                                </div>
 
+                            )}
 
-                                </button>
-
-                            </div>
                         </div>
                     </div>
 
