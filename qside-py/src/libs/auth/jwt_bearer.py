@@ -33,7 +33,6 @@ class JWTBearer(HTTPBearer):
             return websocket.headers.get("Authorization")
 
     def verify_jwt(self, jwtoken: str) -> bool:
-        print("JWT_TOKEN", jwtoken) 
         isTokenValid: bool = False
 
         try:

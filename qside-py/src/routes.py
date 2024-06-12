@@ -4,6 +4,7 @@ from src.api import test
 from src.api import spaces
 from src.api import chat
 from src.api import connections
+from src.api import users
 
 router = APIRouter()
 
@@ -20,3 +21,6 @@ router.include_router(chat.router,
 
 router.include_router(connections.router,
                       prefix="/connections", tags=["connections"])
+                      
+router.include_router(users.router,
+                      prefix="/users", tags=["users"])

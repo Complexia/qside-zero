@@ -164,10 +164,16 @@ const ProfileCard = ({ username, category }) => {
 
             if (data) {
 
+                let update_payload = {
+                    connection_id: data[0].id,
+                    username: targetUsername,
+                    user_id: mad_user.id,
+                }
+
                 const { data: data1, error: error1 } = await supabase
                     .from('public_users')
                     .update({
-                        connections: public_user?.connections ? [...public_user?.connections, data[0].id] : [data[0].id]
+                        connections: public_user?.connections ? [...public_user?.connections, update_payload] : [update_payload]
                     })
                     .eq('id', public_user.id);
 

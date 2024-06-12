@@ -47,9 +47,13 @@ const Navbar = () => {
                     </Link>
 
 
-                    <button className="py-2 hover:bg-btn-background-hover rounded-md px-2  ">
-                        Connections
-                    </button>
+                    <Link className="" href="/connections">
+                        <button className="py-2 hover:bg-btn-background-hover rounded-md px-2  ">
+                            Connections
+                        </button>
+
+
+                    </Link>
 
                     <button className="py-2 hover:bg-btn-background-hover rounded-md px-2 ">
                         Activity
