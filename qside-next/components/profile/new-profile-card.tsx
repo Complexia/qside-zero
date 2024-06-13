@@ -7,6 +7,8 @@ import { IconDiscord, IconGitHub, IconInstagram, IconLinkedIn, IconPlus, IconSpi
 import { createClient } from "@/utils/supabase/client";
 import { useAuth } from "../providers/authProvider";
 import { v4 as uuidv4 } from 'uuid';
+import Link from "next/link";
+import SocialComponent from "./socialComponent";
 interface SocialUser {
     type: string;
     image: string;
@@ -58,6 +60,7 @@ const ProfileCard = ({ username, category }) => {
     const [mad_user, setMadUser] = useState<any>(null);
     const [isConnected, setIsConnected] = useState<boolean>(false);
     const [socialsExpanded, setSocialsExpanded] = useState<boolean>(false);
+
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -170,6 +173,7 @@ const ProfileCard = ({ username, category }) => {
                     user_id: mad_user.id,
                 }
 
+                // update connections on your user (source user)
                 const { data: data1, error: error1 } = await supabase
                     .from('public_users')
                     .update({
@@ -183,20 +187,29 @@ const ProfileCard = ({ username, category }) => {
                     return;
                 }
 
+                // update connections on target user
+
+                let update_payload_target = {
+                    connection_id: data[0].id,
+                    username: sourceUsername,
+                    user_id: public_user.id,
+                }
+
                 const { data: data3, error: error3 } = await supabase
                     .from('public_users')
                     .update({
-                        connections: public_user?.connections ? [...public_user?.connections, data[0].id] : [data[0].id]
+                        connections: mad_user?.connections ? [...mad_user?.connections, update_payload_target] : [update_payload_target]
                     })
                     .eq('id', mad_user.id);
 
                 const activity_payload = {
                     type: "Connection",
-                    description: `Connected with user @${targetUsername}`,
+                    description: `Connected with @${targetUsername}`,
                     user_id: public_user.id,
                     other_user: mad_user.id,
                     username: public_user.username,
-                    other_username: targetUsername,
+                    other_user_username: targetUsername,
+                    action: "connected"
                 }
 
                 const { data: data2, error: error2 } = await supabase
@@ -343,6 +356,8 @@ const ProfileCard = ({ username, category }) => {
     }
 
     
+    const [reset, setReset] = useState(false);
+
 
 
     const expandedSocials = () => {
@@ -351,22 +366,9 @@ const ProfileCard = ({ username, category }) => {
 
                 <div className="flex flex-col space-y-2 text-primary w-full ">
                     {Object.entries(mad_user.new_socials).map(([key, value]) => {
-                        const IconComponent = iconComponents[key];
-                        const social = value as any;
-                        return IconComponent ? (
-                            <div key={key} className="flex items-center space-x-2 border rounded-lg px-2 py-2">
-                                <button
-                                    onClick={() => {
-                                        toggleInput(key);
-                                    }}
-                                    rel="noopener noreferrer"
-                                    className="flex items-center w-full"
-                                >
-                                    <IconComponent className="w-6 h-6" />
-                                    <span className="mx-auto">{social.name}</span>
-                                </button>
-                            </div>
-                        ) : null;
+                       return (
+                        <SocialComponent socialKey={key} socialValue={value} />
+                       ) 
                     })}
                 </div>
 
@@ -526,13 +528,12 @@ const ProfileCard = ({ username, category }) => {
                             {Object.entries(mad_user.new_socials).map(([key, value]) => {
                                 const IconComponent = iconComponents[key];
                                 return IconComponent ? (
-                                    <div key={key}>
+
+                                    // @ts-ignore
+                                    <Link href={value.url} key={key} rel="noopener noreferrer" target="_blank">
                                         <button
                                             className={edit ? 'subtleRotate' : ''}
-                                            onClick={() => {
 
-                                                toggleInput(key);
-                                            }}
                                             rel="noopener noreferrer"
                                         >
 
@@ -542,7 +543,7 @@ const ProfileCard = ({ username, category }) => {
 
                                         </button>
 
-                                    </div>
+                                    </Link>
                                 ) : null;
                             })}
                             {!username_from_params && (
@@ -587,7 +588,7 @@ const ProfileCard = ({ username, category }) => {
                         <span className="link link-primary">Socials ↓</span>
                     </div>
 
-                    { socialsExpanded && expandedSocials()}
+                    {socialsExpanded && expandedSocials()}
 
 
                     <div className="flex justify-end text-primary mt-auto">

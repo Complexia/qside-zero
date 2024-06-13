@@ -77,37 +77,51 @@ export function Connections() {
 
       <Card className="border-0 text-primary ">
         <CardHeader>
-          <CardTitle>Connections</CardTitle>
-          <CardDescription>
-            Search box - search for connections
-          </CardDescription>
+          <div className="flex flex-row">
+
+
+            <CardTitle>Connections</CardTitle>
+            <div className="ml-auto">
+              <CardDescription>
+                <input type="text" placeholder="Search" className="input input-bordered w-full max-w-xs" />
+              </CardDescription>
+            </div>
+          </div>
         </CardHeader>
+        <div className="border border-primary  w-1/2 " />
+
+
         <CardContent className="grid gap-6">
 
           {connections.map((connection) => (
+            <>
+              <div key={connection.id} className="flex items-center justify-between space-x-4">
+                <div className="flex items-center space-x-4">
 
-            <div key={connection.id} className="flex items-center justify-between space-x-4">
-              <div className="flex items-center space-x-4">
-
-                <Link href={`/${connection.username}`}>
-                  <div className="avatar">
-                    <div className="w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                      <img src={`${process.env.NEXT_PUBLIC_SUPABASE_BUCKET_URL_DP}/${connection?.image_info?.uuid}`} alt="avatar" />
-                    </div>
-                  </div>
-                </Link>
-
-                <div>
                   <Link href={`/${connection.username}`}>
-                    <p className="text-sm font-medium leading-none">{connection.username}</p>
+                    <div className="avatar">
+                      <div className="w-16 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                        <img src={`${process.env.NEXT_PUBLIC_SUPABASE_BUCKET_URL_DP}/${connection?.image_info?.uuid}`} alt="avatar" />
+                      </div>
+                    </div>
                   </Link>
-                  <p className="text-sm text-muted-foreground">{connection.bio}</p>
+
+                  <div>
+                    <Link href={`/${connection.username}`}>
+                      <p className="text-sm font-medium leading-none">{connection.username}</p>
+                    </Link>
+                    <p className="text-sm text-muted-foreground">{connection.bio}</p>
+                  </div>
                 </div>
+                <button className="btn btn-primary ml-auto">
+                  message
+                </button>
+
+
               </div>
-              <button className="btn btn-primary ml-auto">
-                message
-              </button>
-            </div>
+              
+            </>
+
 
           ))}
           {/* <div className="flex items-center justify-between space-x-4">
