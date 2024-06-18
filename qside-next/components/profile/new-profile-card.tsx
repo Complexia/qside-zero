@@ -9,6 +9,7 @@ import { useAuth } from "../providers/authProvider";
 import { v4 as uuidv4 } from 'uuid';
 import Link from "next/link";
 import SocialComponent from "./socialComponent";
+import { set } from "zod";
 interface SocialUser {
     type: string;
     image: string;
@@ -51,7 +52,7 @@ const iconComponents = {
 const ProfileCard = ({ username, category }) => {
 
     // @ts-ignore
-    const { public_user } = useAuth();
+    const { public_user, accessToken } = useAuth();
     const username_from_params = username;
 
 
@@ -60,6 +61,7 @@ const ProfileCard = ({ username, category }) => {
     const [mad_user, setMadUser] = useState<any>(null);
     const [isConnected, setIsConnected] = useState<boolean>(false);
     const [socialsExpanded, setSocialsExpanded] = useState<boolean>(false);
+    const [socialsData, setSocialsData] = useState<any>(null);
 
 
     useEffect(() => {
@@ -67,20 +69,22 @@ const ProfileCard = ({ username, category }) => {
             setLoading(true);
             let user: any = null;
             const supabase = createClient();
+
             if (username) {
 
-                const { data, error } = await supabase
-                    .from('public_users')
-                    .select('*')
-                    .eq('username', username)
-                    .single();
-                if (error) {
-                    console.error('Error fetching user:', error);
-                    return;
+                const userResp = await fetch(`/server/users/${username}`, {
+                    method: 'GET',  // Assuming this is a GET request
+                    headers: {
+                        'Content-Type': 'application/json'  // Optional, but useful if you're sending JSON
+                    }
+                });
+    
+                if (userResp.ok) {
+                    const userData = await userResp.json();
+                    user = userData;
+                } else {
+                    console.error('Failed to fetch socials:', userResp.statusText);
                 }
-                console.log('Data:', data);
-                user = data;
-
 
             }
             else {
@@ -93,6 +97,23 @@ const ProfileCard = ({ username, category }) => {
             setImageSrc(`${process.env.NEXT_PUBLIC_SUPABASE_BUCKET_URL_DP}/${user?.image_info?.uuid}`);
 
             setBio(user?.bio);
+
+            const socialsResp = await fetch(`/server/users/${user.username}/get-socials`, {
+                method: 'GET',  // Assuming this is a GET request
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'  // Optional, but useful if you're sending JSON
+                }
+            });
+
+            if (socialsResp.ok) {
+                const socialsData = await socialsResp.json();
+                setSocialsData(socialsData);
+                console.log(socialsData);
+            } else {
+                console.error('Failed to fetch socials:', socialsResp.statusText);
+            }
+
 
             let targetUsername = username;
             let sourceUsername = public_user?.username;
@@ -107,12 +128,11 @@ const ProfileCard = ({ username, category }) => {
                 .from('connections')
                 .select('*').eq('usercon', userconString).single();
 
-            console.log("Data1:", data)
+
             let isConnectedS = data ? true : false;
-            console.log("isConnectedS:", isConnectedS);
+
             setIsConnected(isConnectedS);
-            console.log("is", username_from_params, public_user?.username)
-            console.log("hhey", !username_from_params || (mad_user && username_from_params === mad_user.username))
+
             setLoading(false);
         }
         fetchUser();
@@ -121,9 +141,6 @@ const ProfileCard = ({ username, category }) => {
     }, []);
 
     const [edit, setEdit] = useState(false);
-
-
-
 
     const [bio, setBio] = useState<any>(null);
     const [updating, setUpdating] = useState(false);
@@ -355,28 +372,12 @@ const ProfileCard = ({ username, category }) => {
 
     }
 
-    
+
     const [reset, setReset] = useState(false);
 
 
 
-    const expandedSocials = () => {
-        return (
-            <div>
 
-                <div className="flex flex-col space-y-2 text-primary w-full ">
-                    {Object.entries(mad_user.new_socials).map(([key, value]) => {
-                       return (
-                        <SocialComponent socialKey={key} socialValue={value} />
-                       ) 
-                    })}
-                </div>
-
-
-
-            </div>
-        )
-    }
 
 
 
@@ -432,6 +433,24 @@ const ProfileCard = ({ username, category }) => {
                 </div>
             </div>
         );
+    }
+
+    const expandedSocials = () => {
+        return (
+            <div>
+
+
+                <div className="flex flex-col space-y-2 text-primary w-full">
+                    {socialsData.map((social, index) => (
+                        <SocialComponent key={index} social={social} isYourPage={username? false : true}/>
+                    ))}
+                </div>
+
+
+
+
+            </div>
+        )
     }
 
 
@@ -525,24 +544,15 @@ const ProfileCard = ({ username, category }) => {
 
                         <div className="flex flex-row space-x-2">
 
-                            {Object.entries(mad_user.new_socials).map(([key, value]) => {
-                                const IconComponent = iconComponents[key];
+                            {socialsData.map((social, index) => {
+                                const IconComponent = iconComponents[social.svg_key];
                                 return IconComponent ? (
-
                                     // @ts-ignore
-                                    <Link href={value.url} key={key} rel="noopener noreferrer" target="_blank">
-                                        <button
-                                            className={edit ? 'subtleRotate' : ''}
-
-                                            rel="noopener noreferrer"
-                                        >
-
+                                    <Link href={social.social_url} key={index} rel="noopener noreferrer" target="_blank">
+                                        <button className={edit ? 'subtleRotate' : ''} rel="noopener noreferrer">
                                             {/* @ts-ignore */}
-                                            <IconComponent className="w-6 h-6" username={value.username} />
-
-
+                                            <IconComponent className="w-6 h-6" username={social.social_username} />
                                         </button>
-
                                     </Link>
                                 ) : null;
                             })}
@@ -553,6 +563,7 @@ const ProfileCard = ({ username, category }) => {
                                         onClick={() => {
 
                                             // toggleInput(key);
+                                            // open modal to add social
                                         }}
                                         rel="noopener noreferrer"
                                     >

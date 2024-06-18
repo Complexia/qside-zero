@@ -1,5 +1,5 @@
 import time
-from fastapi import HTTPException, Request, WebSocket
+from fastapi import HTTPException, Request, WebSocket, Security
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 import jwt
 from src.libs.config import config
@@ -9,6 +9,8 @@ JWT_ALGORITHM = config.get("JWT_ALGORITHM")
 
 
 class JWTBearer(HTTPBearer):
+    security = HTTPBearer()
+    
     def __init__(self, auto_error: bool = True):
         super(JWTBearer, self).__init__(auto_error=auto_error)
 
@@ -46,8 +48,6 @@ class JWTBearer(HTTPBearer):
     
     def decodeJWT(self, token: str) -> dict:
         try:
-            
-            
             #decoded_token = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
             decoded_token = jwt.decode(token, algorithms='HS256', audience="authenticated", key=JWT_SECRET, verify=False)
             
@@ -56,3 +56,12 @@ class JWTBearer(HTTPBearer):
         except Exception as e:
             
             return {}
+
+    def get_current_user(self, credentials: HTTPAuthorizationCredentials = Security(security)):
+        token = credentials.credentials
+        payload = self.decodeJWT(token)
+        email = payload.get("email")
+        if email is None:
+            raise HTTPException(status_code=401, detail="No username on token")
+        return email
+        

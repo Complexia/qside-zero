@@ -100,11 +100,11 @@ const ActivityCard = () => {
 
             <div className="card-body">
 
-                <h1 className="text-primary font-bold">Activity history for @{public_user?.username}</h1>
+                <h1 className="text-primary font-bold">Activity for @{public_user?.username}</h1>
                 <div className="flex flex-col space-y-4 mt-4">
                     {itemsToShow.map((item, index) => (
 
-                        <div className="chat chat-start">
+                        <div key={index} className="chat chat-start">
                             <div className="chat-image avatar">
                                 <div className="w-10 rounded-full">
                                     <img alt="Tailwind CSS chat bubble component" src="/assets/qside-katana.png" />
